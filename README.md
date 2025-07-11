@@ -12,9 +12,9 @@ int main( ) {
 	try {
 		printf( "initializing OBS capture... \n" );
 
-		ObsCapture capture( "LWJGL" );
+		ObsCapture capture( "Class Name" );
 
-		capture.set_error_callback( []( const CaptureError error, const std::string& message ){
+		capture.set_error_callback( []( const capture_error error, const std::string& message ){
 			printf( "error: %s | %s \n", to_string( error ).c_str( ), message.c_str( ) );
 		} );
 
