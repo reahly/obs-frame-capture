@@ -290,11 +290,6 @@ namespace obs_capture {
 		return { };
 	}
 
-	std::expected<void, capture_error> ObsCapture::save_as_png(
-		const frame_data& frame_data, const std::string& filename ) {
-		return std::unexpected( capture_error::FileOperationFailed );
-	}
-
 	std::vector<BGRA8> ObsCapture::to_bgra_pixels( const frame_data& frame_data ) {
 		const auto& data = frame_data.data;
 
@@ -306,28 +301,6 @@ namespace obs_capture {
 		pixels.assign( pixel_data, pixel_data + pixel_count );
 
 		return pixels;
-	}
-
-	std::expected<std::vector<std::string>, capture_error> ObsCapture::enumerate_windows( ) {
-		std::vector<std::string> window_classes;
-
-		auto enum_proc = []( const HWND hwnd, const LPARAM lparam ) -> BOOL{
-			auto* classes = reinterpret_cast<std::vector<std::string>*>( lparam );
-
-			char class_name[256];
-			if ( GetClassNameA( hwnd, class_name, sizeof( class_name ) ) > 0 ) {
-				if ( IsWindowVisible( hwnd ) && GetWindowTextLengthA( hwnd ) > 0 ) {
-					classes->emplace_back( class_name );
-				}
-			}
-			return TRUE;
-		};
-
-		if ( !EnumWindows( enum_proc, reinterpret_cast<LPARAM>( &window_classes ) ) ) {
-			return std::unexpected( capture_error::WindowNotFound );
-		}
-
-		return window_classes;
 	}
 
 	std::expected<void, capture_error> ObsCapture::find_window( ) {
@@ -646,7 +619,7 @@ namespace obs_capture {
 #ifdef _WIN64
 		proc = reinterpret_cast<HOOKPROC>( GetProcAddress( lib, "dummy_debug_proc" ) );
 #else
-        proc = reinterpret_cast<HOOKPROC>(GetProcAddress(lib, "_dummy_debug_proc@12"));
+        proc = reinterpret_cast<HOOKPROC>( GetProcAddress( lib, "_dummy_debug_proc@12" ) );
 #endif
 
 		if ( !proc ) {
