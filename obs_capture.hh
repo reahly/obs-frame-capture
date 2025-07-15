@@ -245,10 +245,7 @@ namespace obs_capture {
 
 		[[nodiscard]] static std::expected<void, capture_error> save_as_bmp(
 			const frame_data& frame_data, const std::string& filename );
-		[[nodiscard]] static std::expected<void, capture_error> save_as_png(
-			const frame_data& frame_data, const std::string& filename );
 		[[nodiscard]] static std::vector<BGRA8> to_bgra_pixels( const frame_data& frame_data );
-		[[nodiscard]] static std::expected<std::vector<std::string>, capture_error> enumerate_windows( );
 
 	private:
 		enum class CaptureType : std::uint32_t {
