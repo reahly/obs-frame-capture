@@ -7,7 +7,7 @@
 #include <sstream>
 
 #pragma comment(lib, "psapi.lib")
-#pragma comment(lib, "d3d11.lib")wwwww
+#pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 
 namespace obs_capture {
